@@ -1,0 +1,7 @@
+# Keep LF for shell scripts
+*.sh text eol=lf
+
+# Python/Markdown are fine as text; Git can normalize
+*.py text
+*.md text
+*.txt text
