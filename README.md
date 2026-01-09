@@ -112,12 +112,7 @@ These files are not committed to GitHub and are expected to differ across runs.
 - Dataset-agnostic (any GeoPackage with point, line, and polygon geometries)  
 - Research-friendly and easy to extend  
 
----
-
-## Notes
-
-- This repository intentionally does not export final embeddings by default  
-- Large files and generated artifacts are excluded by design  
+  
 
 ---
 
