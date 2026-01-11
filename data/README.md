@@ -1,8 +1,6 @@
 # Data folder
 
-Place your local dataset files here (NOT tracked by git).
+Dataset link: https://github.com/chuchen2017/GeoNeuralRepresentation/blob/master/data/NYC_total_data.gpkg
 
-Expected example path:
-- data/NYC_total_data.gpkg
 
-This repository ignores large data files by default via .gitignore.
+
