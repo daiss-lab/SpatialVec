@@ -44,15 +44,17 @@ pip install -r requirements.txt
 
 ## Data
 
-This repository does not include any datasets.
+This repository does **not** include any datasets to keep the codebase lightweight and reproducible.
 
-Place your GeoPackage locally, for example:
+The experiments in this project use the **NYC geospatial dataset** originally released with the *GeoNeuralRepresentation* project. The dataset is publicly available at:
 
+https://github.com/chuchen2017/GeoNeuralRepresentation/blob/master/data/NYC_total_data.gpkg
+
+To run the pipeline locally, download the GeoPackage from the link above and place it in the `data/` directory, for example:
+
+```text
 data/NYC_total_data.gpkg
 
-Dataset files are ignored by Git and will not be uploaded.
-
----
 
 ## Running the pipeline
 
