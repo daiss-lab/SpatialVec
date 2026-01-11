@@ -55,6 +55,7 @@ To run the pipeline locally, download the GeoPackage from the link above and pla
 ```text
 data/NYC_total_data.gpkg
 
+---
 
 ## Running the pipeline
 
