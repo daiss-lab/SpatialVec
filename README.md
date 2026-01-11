@@ -50,12 +50,6 @@ The experiments in this project use the **NYC geospatial dataset** originally re
 
 https://github.com/chuchen2017/GeoNeuralRepresentation/blob/master/data/NYC_total_data.gpkg
 
-```md
-To run the pipeline locally, download the GeoPackage from the link above and place it in the `data/` directory, for example:
-
-```text
-data/NYC_total_data.gpkg
-
 ---
 ## Running the pipeline
 
