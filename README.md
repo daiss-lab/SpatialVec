@@ -46,9 +46,8 @@ pip install -r requirements.txt
 
 This repository does **not** include any datasets to keep the codebase lightweight and reproducible.
 
-The experiments in this project use the **NYC geospatial dataset** originally released with the *GeoNeuralRepresentation* project. The dataset is publicly available at:
+The experiments in this project use the **NYC geospatial dataset** originally released with the *GeoNeuralRepresentation* project. The dataset is publicly available [here](https://github.com/chuchen2017/GeoNeuralRepresentation/blob/master/data/NYC_total_data.gpkg). Place the downloaded NYC_total_data.gpkg file under the data/ directory.
 
-https://github.com/chuchen2017/GeoNeuralRepresentation/blob/master/data/NYC_total_data.gpkg
 
 ---
 ## Running the pipeline
