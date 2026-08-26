@@ -1,38 +1,11 @@
-# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
 *.egg-info/
-dist/
-build/
 .venv/
 venv/
-env/
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Data (keep folder, ignore big files)
-data/*.gpkg
-data/*.shp
-data/*.geojson
-data/**/*.gpkg
-data/**/*.shp
-data/**/*.geojson
-
-# Outputs (keep folder, ignore artifacts)
-outputs/**/*.npy
-outputs/**/*.pt
-outputs/**/*.pth
-outputs/**/samples/
-outputs/**/samples/**
-
-# Large arrays / checkpoints anywhere
-*.npy
+outputs/
+logs/
 *.pt
-*.pth
-
-# OS
-.DS_Store
-Thumbs.db
+*.npy
+*.npz
+*.gpkg
