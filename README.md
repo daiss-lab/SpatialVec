@@ -1,6 +1,6 @@
 # SpaitalVec
 
-## 3. Install
+## Install
 
 ```bash
 python -m venv venv
@@ -8,14 +8,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Requires numpy, torch, geopandas, shapely and tqdm. A GPU is optional; the
-encoder falls back to CPU. Automatic mixed precision is enabled only when the
-device supports bfloat16 — float16 is never used, because raw projected
-coordinates and large Fourier products overflow its range.
+Main dependencies are `numpy`, `torch`, `geopandas`, `shapely`, and `tqdm`.
+
+A GPU is optional. If one is not available, the encoder runs on CPU. Mixed precision is only used when `bfloat16` is supported.
 
 ---
 
-## 4. Usage
+## Usage
 
 ### End to end
 
@@ -26,26 +25,25 @@ python generate_embeddings.py \
   --sample-workers 8
 ```
 
-Any vector format geopandas can read works. Polygons, polylines and points are
-supported; multi-part geometries are reduced to their largest part.
+Any vector format supported by GeoPandas can be used. Points, lines, and polygons are supported. For multi-part geometries, the largest part is used.
 
 ### Two stages
 
-Sampling is CPU-bound and the encoder is GPU-bound, so they are worth running
-separately on a cluster.
+Sampling mainly uses the CPU, while training benefits from a GPU. They can be run separately:
 
 ```bash
 python scripts/build_bank.py \
   --input data/NYC_total_data.gpkg \
   --out outputs/nyc/geometry_bank.pt \
-  --workers 16 --summary outputs/nyc/sampling_summary.json
+  --workers 16 \
+  --summary outputs/nyc/sampling_summary.json
 
 python scripts/train_embeddings.py \
   --bank outputs/nyc/geometry_bank.pt \
   --out outputs/nyc
 ```
 
-### Calibrating a new corpus
+### Calibrating a new dataset
 
 ```bash
 python scripts/calibrate.py \
@@ -54,7 +52,7 @@ python scripts/calibrate.py \
   --out calibration_singapore.json
 ```
 
-Pass the reported `N_0` back through `--n0`.
+Use the reported `N_0` value with `--n0`.
 
 ### Slurm
 
@@ -65,60 +63,78 @@ VENV=/path/to/venv sbatch scripts/run_embeddings.sh
 
 ---
 
-## 5. Outputs
+## Outputs
 
-| file | contents |
-|---|---|
-| `geometry_bank.pt` | sampled implicit field, metadata, budgets, row-to-geometry map |
-| `sampling_summary.json` | realised budget and label-coverage statistics |
-| `best_model.pt` | encoder weights plus the configs used |
-| `training_history.json` | per-epoch losses and accuracies |
-| `Z_unique_geometries.npy` | `[n_unique, 477]` — one row per deduplicated geometry |
-| `entity_embeddings.npz` | `entity_ids` and `[n_rows, 477]` — one row per input feature |
-| `embedding_layout.json` | dimension breakdown of the exported vector |
+| File                      | Description                               |
+| ------------------------- | ----------------------------------------- |
+| `geometry_bank.pt`        | Sampled geometry data and metadata        |
+| `sampling_summary.json`   | Sampling statistics                       |
+| `best_model.pt`           | Trained encoder weights and configuration |
+| `training_history.json`   | Training losses and accuracies            |
+| `Z_unique_geometries.npy` | Embeddings for unique geometries          |
+| `entity_embeddings.npz`   | Embeddings for all input rows             |
+| `embedding_layout.json`   | Layout of the final embedding             |
 
-Identical geometries are deduplicated before sampling; `entity_embeddings.npz`
-maps every input row back to its geometry's embedding.
+Duplicate geometries are sampled only once, then mapped back to the original input rows.
 
 ### Memory
 
-The bank is padded to the largest realised budget, so at `N_max = 2048` the NYC
-corpus occupies about 2.9 GB with roughly 80% live rows. Lowering `--n-max`
-tightens the padding at the cost of clamping more objects; `--pad-to` sets the
-query-axis length explicitly.
+With `N_max = 2048`, the NYC geometry bank uses about **2.9 GB** of memory.
+
+Lower `--n-max` if memory usage is too high. You can also use `--pad-to` to set the query length directly.
 
 ---
 
-## 6. Configuration
+## Configuration
 
-| flag | default | meaning |
-|---|---|---|
-| `--n0` | 709 | base budget `N_0` |
-| `--n-min`, `--n-max` | 256, 2048 | budget clamps |
-| `--lambda-ell` | 0.25 | `lam_l`, boundary-length term |
-| `--lambda-area` | 1.00 | `lam_a`, area term |
-| `--lambda-bnd` | 0.55 | `lam_b`, boundary weight slope |
-| `--lambda-int` | 0.50 | `lam_i`, interior weight slope |
-| `--hidden-dim` | 256 | encoder width; export dim is `hidden + 17 + 204` |
-| `--n-heads`, `--n-layers` | 8, 6 | encoder depth |
-| `--epochs` | 30 | training epochs |
-| `--batch-size` | 32 | lower this first if the encoder runs out of memory |
-| `--sample-workers` | 1 | sampler processes; sampling is embarrassingly parallel |
+| Flag                      |   Default | Description                  |
+| ------------------------- | --------: | ---------------------------- |
+| `--n0`                    |       709 | Base sampling budget         |
+| `--n-min`, `--n-max`      | 256, 2048 | Minimum and maximum budgets  |
+| `--lambda-ell`            |      0.25 | Boundary-length term         |
+| `--lambda-area`           |      1.00 | Area term                    |
+| `--lambda-bnd`            |      0.55 | Boundary sampling weight     |
+| `--lambda-int`            |      0.50 | Interior sampling weight     |
+| `--hidden-dim`            |       256 | Encoder hidden size          |
+| `--n-heads`, `--n-layers` |      8, 6 | Encoder settings             |
+| `--epochs`                |        30 | Training epochs              |
+| `--batch-size`            |        32 | Training batch size          |
+| `--sample-workers`        |         1 | Number of sampling processes |
 
-Setting `lam_l = lam_a = 0` fixes the budget at `N_0` for every object, and
-setting `lam_b = lam_i = 0` makes the weights shape-independent: polygons split
-`(1/3, 1/3, 1/3)` and non-areal types split `(1/2, 0, 1/2)`. Together they are
-the non-adaptive ablation baseline for the sampler.
+The default exported embedding size is **477 dimensions**.
+
+If GPU memory is limited, try reducing `--batch-size`.
+
+Setting:
+
+```text
+lam_l = 0
+lam_a = 0
+```
+
+gives every geometry the same sampling budget.
+
+Setting:
+
+```text
+lam_b = 0
+lam_i = 0
+```
+
+also removes shape-dependent sampling weights.
 
 ---
 
-## 7. Reproducibility
+## Reproducibility
 
-Each object is sampled from `default_rng([seed, object_index])`, so a bank is
-bit-identical regardless of `--sample-workers`. Training seeds Python, numpy and
-torch from `--seed`; residual nondeterminism comes only from cuDNN kernel
-selection.
+Each geometry is sampled using:
 
-Query geometry is evaluated in float64 throughout: ray-casting containment,
-segment distances, and the shoelace area, which is centred before summation so
-it does not cancel on projected coordinates.
+```python
+default_rng([seed, object_index])
+```
+
+This keeps sampling results the same even when `--sample-workers` changes.
+
+Python, NumPy, and PyTorch are also seeded using `--seed`.
+
+Geometry calculations are performed in `float64` for better numerical stability.
