@@ -1,4 +1,4 @@
-# githubspaitalvec
+# SpaitalVec
 
 ## 3. Install
 
