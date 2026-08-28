@@ -1,4 +1,4 @@
-# SpaitalVec
+# SpatialVec: A Unified Representation Learning Framework for Geospatial Objects with Boundary-Aware Sampling
 
 ## Install
 
