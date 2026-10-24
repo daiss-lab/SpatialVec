@@ -24,11 +24,6 @@ data/
 └── Singapore_total_data.zip    # Singapore
 ```
 
-| Dataset   | File                            | Objects | Polygons | Polylines | Points | CRS        |
-| --------- | ------------------------------- | ------: | -------: | --------: | -----: | ---------- |
-| New York  | `data/NYC_total_data.zip`       |  60,000 |   20,000 |    20,000 | 20,000 | EPSG:32118 |
-| Singapore | `data/Singapore_total_data.zip` | 541,194 |  189,096 |   272,310 | 79,788 | EPSG:4326  |
-
 Unzip them before use:
 
 ```bash
