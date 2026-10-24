@@ -15,8 +15,7 @@ A GPU is optional. If one is not available, the encoder runs on CPU. Mixed preci
 ---
 
 ### Dataset 
-Datasets used in our experiments can be found in the data folder.
-Additional large datasets are available on [Google Drive](https://drive.google.com/file/d/1lsd0pf2qwMxCL6a6tXFd7m_RxnWEs6bn/view)
+Dataset link: [Google Drive](https://drive.google.com/file/d/1lsd0pf2qwMxCL6a6tXFd7m_RxnWEs6bn/view)
 
 
 ## Running SpatialVec
