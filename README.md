@@ -33,10 +33,6 @@ unzip data/Singapore_total_data.zip -d data/
 
 This creates `data/NYC_total_data.gpkg` and `data/Singapore_total_data.gpkg`.
 
-SpatialVec only reads the geometry column. The coordinate system does not matter, since each geometry is centered and scaled before sampling.
-
-The datasets are also available on [Google Drive](https://drive.google.com/file/d/1lsd0pf2qwMxCL6a6tXFd7m_RxnWEs6bn/view).
-
 
 ## Running SpatialVec
 
