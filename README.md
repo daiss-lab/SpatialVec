@@ -16,26 +16,27 @@ A GPU is optional. If one is not available, the encoder runs on CPU. Mixed preci
 
 ## Dataset
 
-Both datasets are included in the `data/` folder:
+Both datasets are included in the `data/` folder as zipped GeoPackages:
 
 ```text
 data/
-├── NYC_total_data.gpkg         # New York City
-└── Singapore_total_data.zip    # Singapore (zipped GeoPackage)
+├── NYC_total_data.zip          # New York City
+└── Singapore_total_data.zip    # Singapore
 ```
 
 | Dataset   | File                            | Objects | Polygons | Polylines | Points | CRS        |
 | --------- | ------------------------------- | ------: | -------: | --------: | -----: | ---------- |
-| New York  | `data/NYC_total_data.gpkg`      |  60,000 |   20,000 |    20,000 | 20,000 | EPSG:32118 |
+| New York  | `data/NYC_total_data.zip`       |  60,000 |   20,000 |    20,000 | 20,000 | EPSG:32118 |
 | Singapore | `data/Singapore_total_data.zip` | 541,194 |  189,096 |   272,310 | 79,788 | EPSG:4326  |
 
-The Singapore GeoPackage is 168 MB, which is more than GitHub's 100 MB file limit, so it is stored as a zip. Unzip it before use:
+Unzip them before use:
 
 ```bash
+unzip data/NYC_total_data.zip -d data/
 unzip data/Singapore_total_data.zip -d data/
 ```
 
-This creates `data/Singapore_total_data.gpkg`.
+This creates `data/NYC_total_data.gpkg` and `data/Singapore_total_data.gpkg`.
 
 SpatialVec only reads the geometry column. The coordinate system does not matter, since each geometry is centered and scaled before sampling.
 
