@@ -9,3 +9,4 @@ logs/
 *.npy
 *.npz
 *.gpkg
+!data/*.gpkg
