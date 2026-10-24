@@ -14,6 +14,11 @@ A GPU is optional. If one is not available, the encoder runs on CPU. Mixed preci
 
 ---
 
+### Dataset 
+Datasets used in our experiments can be found in the data folder.
+Additional large datasets are available on Google Drive: [https://drive.google.com/file/d/1lsd0pf2qwMxCL6a6tXFd7m_RxnWEs6bn/view](url)
+
+
 ## Usage
 
 ### End to end
@@ -42,17 +47,6 @@ python scripts/train_embeddings.py \
   --bank outputs/nyc/geometry_bank.pt \
   --out outputs/nyc
 ```
-
-### Calibrating a new dataset
-
-```bash
-python scripts/calibrate.py \
-  --input data/Singapore.gpkg \
-  --target-mean 1024 \
-  --out calibration_singapore.json
-```
-
-Use the reported `N_0` value with `--n0`.
 
 ### Slurm
 
