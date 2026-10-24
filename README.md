@@ -19,9 +19,9 @@ Datasets used in our experiments can be found in the data folder.
 Additional large datasets are available on [Google Drive](https://drive.google.com/file/d/1lsd0pf2qwMxCL6a6tXFd7m_RxnWEs6bn/view)
 
 
-## Usage
+## Running SpatialVec
 
-### End to end
+### Single-Command Execution
 
 ```bash
 python generate_embeddings.py \
@@ -32,7 +32,7 @@ python generate_embeddings.py \
 
 Any vector format supported by GeoPandas can be used. Points, lines, and polygons are supported. For multi-part geometries, the largest part is used.
 
-### Two stages
+### Step-by-Step Execution
 
 Sampling mainly uses the CPU, while training benefits from a GPU. They can be run separately:
 
